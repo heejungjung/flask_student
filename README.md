@@ -1,7 +1,7 @@
 # 💛 codestates 학생 관리 💜
 > Flask
 
-😉 [Come visit!](https://talktotalk.herokuapp.com/)
+😉 [Come visit!](https://csflasktest.herokuapp.com/)
 
 ## ✨ DB ✨
 ![DB](https://user-images.githubusercontent.com/28649385/109942300-69f02e00-7d17-11eb-8d69-5449818ca00e.JPG)
