@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import pymysql
 import time
-import math
 app = Flask(__name__)
 
 @app.route('/test')
@@ -18,6 +17,10 @@ def home():
 student_data = {
     1: {"name": "슈퍼맨", "score": {"국어": 90, "수학": 65}},
     2: {"name": "배트맨", "score": {"국어": 75, "영어": 80, "수학": 75}}"""
+
+@app.route('/home')
+def homess():
+    return render_template('home.html')
 
 @app.route('/')
 def index():
@@ -40,8 +43,7 @@ def student():
 
     query = "SELECT * FROM student LIMIT %s OFFSET %s;"
     cursor.execute(query, (per_page, (page-1) * per_page))
-    # 파이썬이 아닌 다른 언어에서는 page가 1부터 시작해서 (page-1) 해줘야 하지만,       파이썬의 range()는 0부터 시작하기 때문에 따로 -1 처리를 하지 않았다.
-    # 직접 실행해보면 알겠지만, MySQL의 OFFSET은 0부터 시작이다.
+    # MySQL의 OFFSET은 0부터 시작
     data_list = cursor.fetchall()
     print(data_list)
 
@@ -93,8 +95,6 @@ def stdinsert():
         db.close()
 
         return redirect('/student')
-        """print(data_list[0])"""
-        """return render_template("index.html", template_students = student_data)"""
 
 @app.route("/std_delete/<id>")
 def std_delete(id):
