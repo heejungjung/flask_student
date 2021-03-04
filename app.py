@@ -3,25 +3,6 @@ import pymysql
 import time
 app = Flask(__name__)
 
-@app.route('/test')
-def home():
-    return '''
-    <h1>이건 h1 제목</h1>
-    <p>이건 p 본문 </p>
-    <a href="https://flask.palletsprojects.com">Flask 홈페이지 바로가기</a>
-    '''
-"""제대로 된 웹 사이트, 즉 애플리케이션이라는 걸 만들고자 한다면 모든 페이지마다 HTML 파일을 각각 작성할 게 아니라 일관된 구조와 기능을 가진 템플릿(template)을 활용해야 한다.
-    -> return render_template("index.html") # 해당 문서를 렌더링해서 반환
-    + jinja2 ( 변수, 조건문/반복문 이용  ) 
-
-student_data = {
-    1: {"name": "슈퍼맨", "score": {"국어": 90, "수학": 65}},
-    2: {"name": "배트맨", "score": {"국어": 75, "영어": 80, "수학": 75}}"""
-
-@app.route('/home')
-def homess():
-    return render_template('home.html')
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -33,10 +14,10 @@ def student():
 
     db = pymysql.connect(host="localhost", user="codestates", passwd="0000", db="students", charset="utf8")
     cursor = db.cursor()
-    # 게시물의 총 개수 세기
+
     per_page = 5  # 한 페이지당 개수
 
-    #: 전체 페이지 구하기
+    #: 전체 페이지
     cursor.execute("SELECT COUNT(*) from student")
     tot_count = cursor.fetchone()[0]
     total_page = round(tot_count / per_page)
@@ -67,8 +48,6 @@ def stdinsertform():
 
 @app.route('/stdinsert', methods=['POST', 'GET'])
 def stdinsert():
-    ## 어떤 http method를 이용해서 전달받았는지를 아는 것이 필요함
-    ## 아래에서 보는 바와 같이 어떤 방식으로 넘어왔느냐에 따라서 읽어들이는 방식이 달라짐
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
@@ -80,7 +59,6 @@ def stdinsert():
         stdphone = request.args.get('stdphone')
         ## 넘겨받은 stdbirth
         stdbirth = request.args.get('stdbirth')
-        ## else 로 하지 않은 것은 POST, GET 이외에 다른 method로 넘어왔을 때를 구분하기 위함
         print(stdname)
         print(stdgender)
         print(stdphone)
@@ -143,18 +121,17 @@ def lecture():
 
     db = pymysql.connect(host="localhost", user="codestates", passwd="0000", db="students", charset="utf8")
     cursor = db.cursor()
-    # 게시물의 총 개수 세기
+
     per_page = 5  # 한 페이지당 개수
 
-    #: 전체 페이지 구하기
+    #: 전체 페이지
     cursor.execute("SELECT COUNT(*) FROM lecture")
     tot_count = cursor.fetchone()[0]
     total_page = round(tot_count / per_page)
 
     query = "SELECT * FROM lecture l JOIN teacher t ON l.lecture_teacher = t.t_id LIMIT %s OFFSET %s;"
     cursor.execute(query, (per_page, (page-1) * per_page))
-    # 파이썬이 아닌 다른 언어에서는 page가 1부터 시작해서 (page-1) 해줘야 하지만,       파이썬의 range()는 0부터 시작하기 때문에 따로 -1 처리를 하지 않았다.
-    # 직접 실행해보면 알겠지만, MySQL의 OFFSET은 0부터 시작이다.
+    # MySQL의 OFFSET은 0부터 시작이다.
     data_list = cursor.fetchall()
 
     # pagination btn
@@ -194,7 +171,6 @@ def lectureinsert():
         lecture_teacher = request.args.get('lecture_teacher')
         cursor.execute("SELECT t_id from teacher WHERE t_name='"+lecture_teacher+"';")
         lecture_teacher = cursor.fetchone()[0]
-        ## else 로 하지 않은 것은 POST, GET 이외에 다른 method로 넘어왔을 때를 구분하기 위함
         print(lecture_name)
         print(lecture_teacher)
 
@@ -249,16 +225,5 @@ def lecture_update(id):
 
         return redirect('/lecture')
 
-
-"""@app.route("/student/<int:id>")
-def student(id):
-    return render_template("student.html", template_name=student_data[id]["name"], template_score=student_data[id]["score"])"""
-
-"""@app.route('/user/<user_name>/<int:user_age>') # 동적페이지 라우팅
-def user(user_name, user_age):
-    return f'Hello, {user_name}({user_age}세)!' # f-string 포맷을 활용해서 문자열에 변수를 넣고 h1 태그를 적용"""
-
 if __name__ == '__main__':
     app.run(debug=True)
-"""app.run() 괄호 안에 debug=True라고 명시하면 해당 파일의 코드를 수정할 때마다 Flask가 변경된 것을 인식하고 다시 시작한다. 
-    스터디 용도로 코딩을 할 때 내용을 바로 반영해서 결과를 확인하기 편리하다."""
