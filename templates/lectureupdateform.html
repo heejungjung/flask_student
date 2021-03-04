@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.png') }}">
-    <title>Codestates 학생 정보 수정</title>
+    <title>Codestates 강의 정보 수정</title>
     <link href="{{ url_for('static',filename='css/styles.css') }}" rel="stylesheet" />
 </head>
 <body>
     <div class="masthead bg-primary text-white text-center">
         <div class="container d-flex align-items-center flex-column">
             <!-- Masthead Heading-->
-            <h1 class="masthead-heading text-uppercase mb-0">학생 정보 수정</h1>
+            <h1 class="masthead-heading text-uppercase mb-0">강의 정보 수정</h1>
             <!-- Icon Divider-->
             <div class="divider-custom divider-light">
                 <div class="divider-custom-line"></div>
@@ -20,31 +20,25 @@
             </div>
             <!-- register form -->
             {% for i in data_list %}
-            <form action="/std_update/{{ i[0] }}" method="POST">
+            <form action="/lecture_update/{{ i[0] }}" method="POST">
                 <div class="form-group">
-                  <label for="stdname"> 이 름 </label>
-                  <input type="text" class="form-control" name="stdname" id="stdname" value={{ i[1] }}>
+                  <label for="lecture_name"> 강의명 </label>
+                  <input type="text" class="form-control" name="lecture_name" id="lecture_name" value={{ i[1] }}>
                 </div>
                 <div class="form-group">
-                  <label for="stdgender"> 성 별 </label>
-                  <select type="text" id="stdgender" name="stdgender" class="form-control" value={{ i[2] }}>
+                  <label for="lecture_teacher"> 담당강사님 </label>
+                  <select type="text" id="lecture_teacher" name="lecture_teacher" class="form-control" value={{ i[2] }}>
                     <option selected>Choose...</option>
-                    <option>F</option>
-                    <option>M</option>
+                    {% for i in teacher_list %}
+                    <option>{{ i[1] }}</option>
+                    {% endfor %}
                   </select>
                 </div>
-                <div class="form-group">
-                    <label for="stdphone"> 연락처 </label>
-                    <input type="text" class="form-control" name="stdphone" id="stdphone" value={{ i[3] }}>
-                </div>
-                <div class="form-group">
-                    <label for="stdbirth"> 생 일 </label>
-                    <input type="date" name="stdbirth" class="form-control" id="stdbirth" value={{ i[4] }}>
-                </div>
                 <button type="submit" class="btn btn-light">등록</button>
-                <button type="button" onclick="location.href='/student'" class="btn btn-light">돌아가기</button>
+                <button type="button" onclick="location.href='/lecture'" class="btn btn-light">돌아가기</button>
             </form>
             {% endfor %}
+            <br><br><br><br>
         </div>
     </div>
     <!-- Bootstrap core JS-->

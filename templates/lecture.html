@@ -18,7 +18,7 @@
                         <tr>
                             <th>강의번호</th>
                             <th>강의제목</th>
-                            <th>학생목록</th>
+                            <th>담당강사</th>
                             <th>수정</th>
                             <th>삭제</th>
                         </tr>
@@ -28,9 +28,9 @@
                         <tr>
                             <td>{{ i[0] }}</td>
                             <td>{{ i[1] }}</td>
-                            <td>..</td>
-                            <td><button type="button" onclick="window.location.href='{{ url_for('std_update', id=i[0]) }}'" class="btn btn-warning">수정</button></td>
-                            <td><button type="button" onclick="window.location.href='{{ url_for('std_delete', id=i[0]) }}'" class="btn btn-danger">삭제</button></td>
+                            <td>{{ i[4] }}</td>
+                            <td><button type="button" onclick="window.location.href='{{ url_for('lecture_update', id=i[0]) }}'" class="btn btn-warning">수정</button></td>
+                            <td><button type="button" onclick="window.location.href='{{ url_for('lecture_delete', id=i[0]) }}'" class="btn btn-danger">삭제</button></td>
                         </tr>
                         {% endfor %}
                     </tbody>
