@@ -1,0 +1,83 @@
+{% extends "base.html"  %}
+{% block content %}
+    <div class="page-section portfolio">
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">학생 관리</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Portfolio Grid Items-->
+            <div class="row justify-content-center">
+                {% if tot_count > 0 %}
+                <table class="table table-hover table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>학생번호</th>
+                            <th>이름</th>
+                            <th>성별</th>
+                            <th>연락처</th>
+                            <th>생년월일</th>
+                            <th>등록일</th>
+                            <th>수정</th>
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in data_list %}
+                        <tr>
+                            <td>{{ i[0] }}</td>
+                            <td>{{ i[1] }}</td>
+                            <td>{{ i[2] }}</td>
+                            <td>{{ i[3] }}</td>
+                            <td>{{ i[4] }}</td>
+                            <td>{{ i[5] }}</td>
+                            <td><button type="button" onclick="window.location.href='{{ url_for('std_update', id=i[0]) }}'" class="btn btn-warning">수정</button></td>
+                            <td><button type="button" onclick="window.location.href='{{ url_for('std_delete', id=i[0]) }}'" class="btn btn-danger">삭제</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <h3>학생 데이터가 존재하지 않습니다.</h3>
+                {% endif %}
+            </div>
+            <div>
+                <ul class="pagination justify-content-center">
+                    <!-- 페이지네이션을 위한 코드 시작 -->
+                    {% if block_start - 1 > 0 %}
+                        <li><a href="{{url_for('student', page=block_start - 1)}}" class="text-secondary"> [◀] </a></li>
+                    {% endif %}
+
+                    {% for i in range(block_start, block_end + 1)%}
+                        <!-- 데이터가 존재하지 않는 페이지는 화면에 나타내지 않기 위한 조건문 -->
+                        {% if i > total_page %}
+
+                        {% else %}
+                            {% if i == page %}
+                                <li><b class="text-secondary"> {{ i }} </b>
+                            {% else %}
+                                <li><a href="{{url_for('student', page=i)}}" class="text-secondary"> {{ i }} </a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if block_end < total_page %}
+                        <li><a href="{{url_for('student', page=block_end + 1)}}" class="text-secondary"> [▶] </a></li>
+                    {% endif %}
+                    <!-- 페이지네이션을 위한 코드 끝 -->
+                </ul>
+                <a href="/stdinsertform" class="btn btn-outline-info float-right"> 학생 추가 </a>
+            </div>
+        </div>
+    </div>
+    {#  <h2>{{ template_name }} 님의 성적</h2>
+        <ul>
+            {% for key, value in template_score.items() %}
+                <li>{{ key }} : {{ value }}</li>
+            {% endfor%}
+        </ul> #}
+{% endblock %}

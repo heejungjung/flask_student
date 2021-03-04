@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.png') }}">
+    <title>Codestates 학생 등록</title>
+    <link href="{{ url_for('static',filename='css/styles.css') }}" rel="stylesheet" />
+</head>
+<body>
+    <div class="masthead bg-primary text-white text-center">
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Heading-->
+            <h1 class="masthead-heading text-uppercase mb-0">학생 등록</h1>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- register form -->
+            <form action="/stdinsert" method="GET">
+                <div class="form-group">
+                  <label for="stdname"> 이 름 </label>
+                  <input type="text" class="form-control" name="stdname" id="stdname" placeholder="홍길동">
+                </div>
+                <div class="form-group">
+                  <label for="stdgender"> 성 별 </label>
+                  <select type="text" id="stdgender" name="stdgender" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>F</option>
+                    <option>M</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                    <label for="stdphone"> 연락처 </label>
+                    <input type="text" class="form-control" name="stdphone" id="stdphone" placeholder="-없이 입력하세요.">
+                </div>
+                <div class="form-group">
+                    <label for="stdbirth"> 생 일 </label>
+                    <input type="date" name="stdbirth" class="form-control" id="stdbirth">
+                </div>
+                <button type="submit" class="btn btn-light">등록</button>
+                <button type="button" onclick="location.href='/student'" class="btn btn-light">돌아가기</button>
+            </form>
+        </div>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
+
+</body>
+</html>
+<script>
+    var replaceNotInt = /[^0-9]/gi;
+    $(document).ready(function(){
+        $("#stdphone").on("focusout", function() {
+            var x = $(this).val();
+            if (x.length > 0) {
+                if (x.match(replaceNotInt)) {
+                   x = x.replace(replaceNotInt, "");
+                }
+                $(this).val(x);
+            }
+        }).on("keyup", function() {
+            $(this).val($(this).val().replace(replaceNotInt, ""));
+        });
+    });
+</script>

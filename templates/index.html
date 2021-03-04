@@ -1,0 +1,22 @@
+{% extends "base.html"  %}
+{% block content %}
+    <div class="masthead bg-primary text-white text-center">
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Avatar Image-->
+            <img class="masthead-avatar mb-10" src="{{ url_for('static',filename='img/codestates-ci.png') }}" alt="" />
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+        </div>
+    </div>
+    {#  <h1>시험 성적 확인하기</h1>
+        <p>이름을 클릭하세요.</p>
+        <ul>
+            {% for key, value in template_students | dictsort %}
+                <li><a href="/student/{{ key }}">{{ value["name"] }}</a></li>
+            {% endfor%}
+        </ul> #}
+{% endblock %}
